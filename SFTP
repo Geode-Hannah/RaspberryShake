@@ -1,0 +1,360 @@
+#Need to call the pysftp function from conda. Already installed.
+import pysftp
+import os
+import sys
+import obspy
+import obspy.core
+import read
+import datetime
+
+# Station (1)
+# Station R185D
+
+# 3 Channels (EHE EHN EHZ)
+# CHANNEL EHE.D
+
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R185D_EHE = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+
+local_files=os.listdir(ShakeData)
+# List the file in ShakeData
+RS_FileLocation_R185D_EHE = sftp_R185D_EHE.listdir('/opt/data/archive/2023/AM/R185D/EHE.D')
+# List the files on the machine
+print('Checking for missing day files..')
+files2get_R185D_EHE= [x for x in RS_FileLocation_R185D_EHE if x not in local_files]
+num_files_R185D_EHE=len(files2get_R185D_EHE)
+print('Missing files: ' + str(num_files_R185D_EHE))
+for file in files2get_R185D_EHE:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R185D_EHE ='/opt/data/archive/2023/AM/R185D/EHE.D/' + str(file)
+    print('getting R185D ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R185D_EHE.get(file_loc_RS_R185D_EHE, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R185D_EHE.close()
+print('Channel R185D.EHE.D data finished')
+
+# CHANNEL EHN.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R185D_EHN = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R185D_EHN = sftp_R185D_EHN.listdir('/opt/data/archive/2023/AM/R185D/EHN.D')
+print('Checking for missing day files..')
+
+files2get_R185D_EHN= [x for x in RS_FileLocation_R185D_EHN if x not in local_files]
+num_files_R185D_EHN=len(files2get_R185D_EHN)
+print('Missing files: ' + str(num_files_R185D_EHN))
+for file in files2get_R185D_EHN:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R185D_EHN ='/opt/data/archive/2023/AM/R185D/EHN.D/' + str(file)
+    print('getting R185D.EHN ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R185D_EHN.get(file_loc_RS_R185D_EHN, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R185D_EHN.close()
+print('Channel R185D.EHN data finished')
+
+# CHANNEL EHZ.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R185D_EHZ = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R185D_EHZ = sftp_R185D_EHZ.listdir('/opt/data/archive/2023/AM/R185D/EHZ.D')
+print('Checking for missing day files..')
+
+files2get_R185D_EHZ= [x for x in RS_FileLocation_R185D_EHZ if x not in local_files]
+num_files_R185D_EHZ=len(files2get_R185D_EHZ)
+print('Missing files: ' + str(num_files_R185D_EHZ))
+for file in files2get_R185D_EHZ:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R185D_EHZ ='/opt/data/archive/2023/AM/R185D/EHZ.D/' + str(file)
+    print('getting R185D.EHZ ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R185D_EHZ.get(file_loc_RS_R185D_EHZ, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R185D_EHZ.close()
+print('Channel R185D.EHZ data finished')
+print('End of Station R185D ')
+print('Moving on to Station R511E ')
+
+
+# NEW STATION (2nd)
+# Station R511E
+
+# 3 Channels (EHN EHE EHZ)
+# CHANNEL EHN.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R511E_EHN = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R511E_EHN = sftp_R511E_EHN.listdir('/opt/data/archive/2023/AM/R511E/EHN.D')
+print('Checking for missing day files..')
+
+files2get_R511E_EHN= [x for x in RS_FileLocation_R511E_EHN if x not in local_files]
+num_files_R511E_EHN=len(files2get_R511E_EHN)
+print('Missing files: ' + str(num_files_R511E_EHN))
+for file in files2get_R511E_EHN:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R511E_EHN ='/opt/data/archive/2023/AM/R511E/EHN.D/' + str(file)
+    print('getting R511E.EHN ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R511E_EHN.get(file_loc_RS_R511E_EHN, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R511E_EHN.close()
+print('Channel R511E.EHN data finished')
+
+# CHANNEL EHE.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R511E_EHE = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R511E_EHE = sftp_R511E_EHE.listdir('/opt/data/archive/2023/AM/R511E/EHE.D')
+print('Checking for missing day files..')
+
+files2get_R511E_EHE= [x for x in RS_FileLocation_R511E_EHE if x not in local_files]
+num_files_R511E_EHE=len(files2get_R511E_EHE)
+print('Missing files: ' + str(num_files_R511E_EHE))
+for file in files2get_R511E_EHE:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R511E_EHE ='/opt/data/archive/2023/AM/R511E/EHE.D/' + str(file)
+    print('getting R511E.EHE ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R511E_EHE.get(file_loc_RS_R511E_EHE, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R511E_EHE.close()
+print('Channel R511E.EHE data finished')
+
+# CHANNEL EHZ.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R511E_EHZ = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R511E_EHZ = sftp_R511E_EHZ.listdir('/opt/data/archive/2023/AM/R511E/EHZ.D')
+print('Checking for missing day files..')
+
+files2get_R511E_EHZ= [x for x in RS_FileLocation_R511E_EHZ if x not in local_files]
+num_files_R511E_EHZ=len(files2get_R511E_EHZ)
+print('Missing files: ' + str(num_files_R511E_EHZ))
+for file in files2get_R511E_EHZ:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R511E_EHZ ='/opt/data/archive/2023/AM/R511E/EHZ.D/' + str(file)
+    print('getting R511E.EHZ ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R511E_EHZ.get(file_loc_RS_R511E_EHZ, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R511E_EHZ.close()
+print('Channel R511E.EHZ data finished')
+print('End of Station R511E ')
+print('Moving on to Station R40E0 ')
+
+
+# NEW STATION (3rd)
+# Station R40E0
+
+# CHANNEL EHN.D
+ShakeData = 'C:/ShakeData/'
+
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R40E0_EHN = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R40E0_EHN = sftp_R40E0_EHN.listdir('/opt/data/archive/2023/AM/R40E0/EHN.D')
+print('Checking for missing day files..')
+
+files2get_R40E0_EHN= [x for x in RS_FileLocation_R40E0_EHN if x not in local_files]
+num_files_R40E0_EHN=len(files2get_R40E0_EHN)
+print('Missing files: ' + str(num_files_R40E0_EHN))
+for file in files2get_R40E0_EHN:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R40E0_EHN ='/opt/data/archive/2023/AM/R40E0/EHN.D/' + str(file)
+    print('getting R40E0.EHN ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R40E0_EHN.get(file_loc_RS_R40E0_EHN, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R40E0_EHN.close()
+print('Channel R40E0.EHN data finished')
+
+# CHANNEL EHE.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R40E0_EHE = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R40E0_EHE = sftp_R40E0_EHE.listdir('/opt/data/archive/2023/AM/R40E0/EHE.D')
+print('Checking for missing day files..')
+
+files2get_R40E0_EHE= [x for x in RS_FileLocation_R40E0_EHE if x not in local_files]
+num_files_R40E0_EHE=len(files2get_R40E0_EHE)
+print('Missing files: ' + str(num_files_R40E0_EHE))
+for file in files2get_R40E0_EHE:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R40E0_EHE ='/opt/data/archive/2023/AM/R40E0/EHE.D/' + str(file)
+    print('getting R40E0.EHE ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R40E0_EHE.get(file_loc_RS_R40E0_EHE, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R40E0_EHE.close()
+print('Channel R40E0.EHE data finished')
+
+# CHANNEL EHZ.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_R40E0_EHZ = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_R40E0_EHZ = sftp_R40E0_EHZ.listdir('/opt/data/archive/2023/AM/R40E0/EHZ.D')
+print('Checking for missing day files..')
+
+files2get_R40E0_EHZ= [x for x in RS_FileLocation_R40E0_EHZ if x not in local_files]
+num_files_R40E0_EHZ=len(files2get_R40E0_EHZ)
+print('Missing files: ' + str(num_files_R40E0_EHZ))
+for file in files2get_R40E0_EHZ:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_R40E0_EHZ ='/opt/data/archive/2023/AM/R40E0/EHZ.D/' + str(file)
+    print('getting R40E0.EHZ ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_R40E0_EHZ.get(file_loc_RS_R40E0_EHZ, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_R40E0_EHZ.close()
+print('Channel R40E0.EHZ data finished')
+print('End of Station R40E0 ')
+print('Moving on to Station RF67E ')
+
+
+# NEW STATION (4th)
+# Station RF67E
+# CHANNEL EHE.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_RF67E_EHE = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_RF67E_EHE = sftp_RF67E_EHE.listdir('/opt/data/archive/2023/AM/RF67E/EHE.D')
+print('Checking for missing day files..')
+
+files2get_RF67E_EHE= [x for x in RS_FileLocation_RF67E_EHE if x not in local_files]
+num_files_RF67E_EHE=len(files2get_RF67E_EHE)
+print('Missing files: ' + str(num_files_RF67E_EHE))
+for file in files2get_RF67E_EHE:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_RF67E_EHE ='/opt/data/archive/2023/AM/RF67E/EHE.D/' + str(file)
+    print('getting RF67E.EHE ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_RF67E_EHE.get(file_loc_RS_RF67E_EHE, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_RF67E_EHE.close()
+print('Channel RF67E.EHE data finished')
+
+# CHANNEL EHN.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_RF67E_EHN = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_RF67E_EHN = sftp_RF67E_EHN.listdir('/opt/data/archive/2023/AM/RF67E/EHN.D')
+print('Checking for missing day files..')
+
+files2get_RF67E_EHN= [x for x in RS_FileLocation_RF67E_EHN if x not in local_files]
+num_files_RF67E_EHN=len(files2get_RF67E_EHN)
+print('Missing files: ' + str(num_files_RF67E_EHN))
+for file in files2get_RF67E_EHN:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_RF67E_EHN ='/opt/data/archive/2023/AM/RF67E/EHN.D/' + str(file)
+    print('getting RF67E.EHN ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_RF67E_EHN.get(file_loc_RS_RF67E_EHN, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_RF67E_EHN.close()
+print('Channel RF67E.EHN data finished')
+
+# CHANNEL EHZ.D
+ShakeData = 'C:/ShakeData/'
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
+with pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts):
+    sftp_RF67E_EHZ = pysftp.Connection('10.147.20.##', username='USERNAME', password='PASSWORD', cnopts=cnopts)
+local_files=os.listdir(ShakeData)
+RS_FileLocation_RF67E_EHZ = sftp_RF67E_EHZ.listdir('/opt/data/archive/2023/AM/RF67E/EHZ.D')
+print('Checking for missing day files..')
+
+files2get_RF67E_EHZ= [x for x in RS_FileLocation_RF67E_EHZ if x not in local_files]
+num_files_RF67E_EHZ=len(files2get_RF67E_EHZ)
+print('Missing files: ' + str(num_files_RF67E_EHZ))
+for file in files2get_RF67E_EHZ:
+    begin_time = datetime.datetime.now()
+    file_loc_RS_RF67E_EHZ ='/opt/data/archive/2023/AM/RF67E/EHZ.D/' + str(file)
+    print('getting RF67E.EHZ ' + str(file))
+    local_name=ShakeData + str(file)
+    sftp_RF67E_EHZ.get(file_loc_RS_RF67E_EHZ, local_name)
+    print(datetime.datetime.now() - begin_time)
+   # st=read(local_name)
+   # st.plot()
+    #print(len(st[0])/8640000)
+   # print('value should be close to 1 ')
+sftp_RF67E_EHZ.close()
+print('Channel RF67E.EHZ data finished')
+print('End of Station RF67E ')
+print('Data Collecting is complete! ')
