@@ -1,0 +1,90 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import os
+import obspy
+from obspy.signal.trigger import recursive_sta_lta, trigger_onset, plot_trigger, coincidence_trigger
+from obspy.core import Stream, read, UTCDateTime
+
+tot_triggers = 0
+trigger_list = list()
+directory = "C:/Seismo/MSEED/Pre_STA_LTA/March/15/"
+directory2 = "C:/Seismo/MSEED/cutfiles/March/"
+print(directory)
+L = 1
+if not os.path.exists(directory2 + "cutfiles"):
+    os.makedirs(directory2 + "cutfiles")
+    print("directory made")
+Z=0
+for file in os.listdir(directory):
+    if Z==0:
+        st=read(directory + file)
+        Z=1
+        print(directory + file)
+    else:
+        if os.path.isfile(directory + file):
+            print(directory + file)
+            st1=read(directory + file)
+            st=st+st1
+st2 = st.copy()
+st2.detrend('demean')
+# # st2.plot()
+tr = st2[0]
+st3 = st2.copy()
+t = st[0].stats.starttime
+dt = UTCDateTime(t)
+st3.trim(dt, dt + 86400)
+st4 = st3.copy()
+st4.detrend('demean')
+st4.filter('bandpass', freqmin=8, freqmax=30) # Initial: 10 - 40 Hz
+st5 = st4.copy()
+# st5.plot()
+csum = len(st4)
+print(csum)
+csum = 9
+STA = 2
+LTA = 1
+STAL = 1 # Keep the max at 2 and adjust smaller
+LTAL = 10
+trig = coincidence_trigger("recstalta", STA, LTA, st4, csum, sta=STAL, lta=LTAL,
+                          max_trigger_length=10, delete_long_trigger=True, details=True)
+tot_triggers = tot_triggers + len(trig)
+trigger_list = trigger_list + trig
+        # if len(trig) < 1:
+        # print('no detections')
+print(trig)
+if len(trig) >= 1:
+    print(file)
+    print('confidence sum = ' + str(csum))
+    print(str(len(trig)) + ' detections')
+    for i in range(len(trig)):
+        trigind = trig[i]
+        UTCtime = trigind["time"]
+        tr = st[0]
+        t3 = st[0].stats.starttime
+        dt3 = UTCDateTime(t3)
+        st2 = st.copy()
+        st2.trim(starttime=(UTCtime - 45), endtime=(UTCtime + 45))
+        # st2.plot()
+        st2.write(directory2 + 'trigger.' + dt3.strftime('.%Y_%m_%d') + "_" + str(i + 1) + ".mseed",
+                  format='MSEED')
+        if i > L:
+            L = i + 1
+
+print('Final File Saved')
+print('Here is the plot for saving')
+
+# Characteristic function and trigger onsets for new trimmed file
+ef = tr.stats.sampling_rate
+tr.detrend('demean')
+tr.filter('bandpass', freqmin=10, freqmax=40)
+tr2 = tr.copy()
+
+cft = recursive_sta_lta(tr2.data, int(1 * ef), int(3 * ef))
+plot_trigger(tr2, cft, thr_on=2, thr_off=1)
+thrOn = 2
+thrOff = 1
+# Plotting the results
+vx = plt.subplot(211)
+plt.subplot(211)
+print('Done')
