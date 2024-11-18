@@ -1,0 +1,56 @@
+#!/bin/bash
+
+ 
+
+# Set the ZeroTier network ID
+
+NETWORK_ID="1234567890abcdef"
+
+ 
+
+# Check if ZeroTier is running
+
+if systemctl is-active zerotier-one.service > /dev/null ; then
+
+    echo "ZeroTier is running."
+
+else
+
+    echo "ZeroTier is not running. Restarting..."
+
+    systemctl start zerotier-one.service
+
+    sleep 5
+
+fi
+
+ 
+
+# Check if the Raspberry Shake is connected to the ZeroTier network
+
+if zerotier-cli listnetworks | grep -q $NETWORK_ID ; then
+
+    echo "Raspberry Shake is connected to ZeroTier network."
+
+else
+
+    echo "Raspberry Shake is not connected to ZeroTier network. Joining..."
+
+    zerotier-cli join $NETWORK_ID
+
+    sleep 5
+
+fi
+
+ Run this command to make the script executable:
+
+chmod +x check_zerotier.sh
+
+ 
+# The shake has crontab installed, which can be used to automatically run programs.
+
+try crontab -e and if it is working it will open a new crontab file in a text editor, add this line to that file with the correct file path in place of the CHANGETOROOT..
+
+0 * * * * /CHANGETOROOTORWHEREYOUMADEFOLDER/custom_scripts/check_zerotier.sh > /dev/null 2>&1
+
+ 
