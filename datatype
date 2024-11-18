@@ -1,0 +1,37 @@
+from obspy.core import read
+import os
+from obspy.core import UTCDateTime
+import pandas as pd
+
+directory = "C:/Seismo/MSEED/dayfiles/April/"
+print(directory)
+directory2: str = "C:/Seismo/MSEED/Pre_STA_LTA/April/"
+# Set up a walking path to move through each folder
+for root, dirs, files in os.walk(directory):
+    print(root)
+    for name in dirs:
+        full_path = os.path.join(directory,name)
+        subdir_list = os.listdir(full_path)
+        if len(subdir_list)>0:
+
+            for file in subdir_list:
+                s = pd.date_range(start='04/01/2024', end='04/29/2024')
+                for i in s:
+                    L = 1
+                    s = pd.date_range(start='04/01/2024', end='04/29/2024')
+                    if L == 1:
+                        st_final = read(f'{full_path}/{file}')
+                        L = 2
+                        print(file)
+
+                        st = read(f'{full_path}/{file}')
+                        len(st)
+                        t1 = st[0]
+                        t = st[0].stats.starttime
+                        dt1 = UTCDateTime(t)
+                        st3 = st.copy()
+                        st3.trim(dt1, dt1 + 86400)
+                        st3.write(directory2 + 'BUSHTON.' + t1.id + dt1.strftime('.%Y_%m_%d') + '.mseed',
+                                       format='MSEED', encoding="STEIM1", reclen=4096, filesize=262144, byteorder='<')
+                    else:
+                        pass
