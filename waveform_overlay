@@ -1,0 +1,40 @@
+import obspy
+import matplotlib.pyplot as plt
+
+# Load the sample dataset
+st = obspy.read("C:/Seismo/waveform/2023-09-19-mb_lg28-nebraska.miniseed")
+st += obspy.read("C:/Seismo/waveform/2023-09-19-1054-45M.NSN___012")
+print(st)
+station1_code = 'CBKS'
+station2_code = 'R185D'
+station1_traces = st.select(station=station1_code, channel='BHZ')
+station2_traces = st.select(station=station2_code, channel='EHZ')
+# Normalize amplitude
+# for trace in station1_traces + station2_traces:
+#     trace.data = trace.data / max(abs(trace.data))
+
+for trace in station1_traces:
+    trace.detrend('demean')
+    trace.filter('bandpass', freqmin=5, freqmax=8)
+    time = trace.times("matplotlib")
+    amplitude = trace.data
+    plt.plot(time, amplitude, label=f'{trace.stats.station} - {trace.stats.channel}', linestyle='-', color='navy', alpha=0.8, linewidth=2.8)
+
+for trace in station2_traces:
+    trace.detrend('demean')
+    trace.filter('bandpass', freqmin=8, freqmax=12)
+    time = trace.times("matplotlib")
+    amplitude = trace.data
+    plt.plot(time, amplitude, label=f'{trace.stats.station} - {trace.stats.channel}', linestyle='-', color='#B8860B', alpha=1.0, linewidth=1.5)
+
+station1_traces.trim(starttime=obspy.UTCDateTime("2023-07-22T22:21:20"), endtime=obspy.UTCDateTime("2023-07-22T22:21:40"))
+station2_traces.trim(starttime=obspy.UTCDateTime("2023-07-22T22:21:20"), endtime=obspy.UTCDateTime("2023-07-22T22:21:40"))
+plt.title("Comparison of Waveforms from Two Stations")
+plt.ylabel('Amplitude')
+plt.xlabel('Time (s)')
+plt.legend(loc='upper right')
+plt.grid(True)
+plt.gca().xaxis_date()
+plt.gcf().autofmt_xdate()
+plt.show()
+plt.figure(figsize=(12, 6))
